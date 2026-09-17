@@ -1,115 +1,53 @@
-# Computer Vision Lab 1
+# Lab 02 — Effect of Image Filtering on Skin-Lesion Classification
+
+**Student ID:** 054
+**Dataset:** HAM10000 (Skin Cancer MNIST)
 
 ## Overview
-This repository contains the Jupyter Notebook **`Lab1_CV_054.ipynb`** for a Computer Vision lab exercise. The notebook sets up a Python/PyTorch environment and prepares comparison tables for different machine learning classifiers and model-performance metrics.
+This notebook (`Lab2_CV_054.ipynb`) investigates how five spatial-domain image filters —
+Average, Gaussian, Median, Sharpening, and Sobel edge detection — affect the classification
+performance of the three best pretrained models identified in Lab Activity 1 (Task 01).
 
-## Technologies and Libraries
-The notebook uses:
+For each of the 3 models, the notebook runs 6 experiments (no filter + 5 filters) using an
+identical dataset split, preprocessing pipeline, and training configuration, then compares
+results.
 
-- Python 3
-- PyTorch
-- Torchvision
-- Pandas
-- NumPy
-- scikit-learn
-- XGBoost
-- timm
-- THOP
-- torchinfo
-
-## Installation
-Install the required packages using:
-
+## Requirements
 ```bash
-pip install timm thop scikit-learn xgboost torchinfo
+pip install timm scikit-learn torchinfo thop opencv-python torch torchvision pandas numpy matplotlib seaborn
 ```
 
-The notebook also imports PyTorch, Torchvision, Pandas, and NumPy.
-
-## Hardware
-The notebook automatically checks whether CUDA is available:
-
-```python
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-```
-
-In the recorded execution, the notebook used the **CPU**.
-
-## Main Components
-
-### 1. Classification Results
-The notebook defines a function called `collect_classification_results()` to create a results table for:
-
-- Logistic Regression
-- Decision Tree
-- Random Forest
-- K-Nearest Neighbors
-- Linear SVM
-- XGBoost
-
-The table contains:
-
-- Accuracy
-- Precision
-- Recall
-- F1-Score
-- AUC
-- Training Time
-- Inference Time
-
-### 2. Additional Model Metrics
-The notebook creates a second table containing categories related to:
-
-- Model Size (MB)
-- FLOPs (Giga)
-- Memory (MB)
-- Latency (ms)
-
-### 3. Final Comparison Metrics
-A third table is created for:
-
-- Overall Performance
-- Robustness
-- Scalability
-- Energy Efficiency
-
-The table contains performance scores and an error-rate value.
-
-## Important Note
-The current notebook uses **randomly generated dummy/placeholder values** for the three result tables. The notebook itself states that these values should be replaced with actual evaluation results from trained models and the specific task requirements.
-
-Therefore, the displayed numerical results should **not be treated as real model-performance measurements**.
-
-## Output
-The notebook displays three Pandas DataFrames:
-
-- `df_table1` — classifier comparison
-- `df_table2` — model/resource metrics
-- `df_table3` — final comparison categories
+## Dataset Setup
+1. Download HAM10000 from Kaggle: https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000
+2. Extract it so the folder looks like:
+   ```
+   HAM10000/
+     HAM10000_metadata.csv
+     HAM10000_images_part_1/
+     HAM10000_images_part_2/
+   ```
+3. Update `DATA_DIR` in the notebook's configuration cell to point to this folder (defaults to `/content/HAM10000` for Google Colab).
 
 ## How to Run
+1. Open `Lab2_CV_054.ipynb` in Google Colab (recommended, for GPU) or Jupyter.
+2. In the **Configuration** cell, set `BEST_MODELS` to the three models that scored best in your Lab Activity 1 comparison (defaults to `resnet50`, `densenet121`, `efficientnet_b0` as placeholders).
+3. Run all cells top to bottom:
+   - **Section 1** loads and inspects the dataset, plots class distribution, creates a fixed train/val/test split.
+   - **Section 2** defines and visualizes the five filters.
+   - **Section 3** defines the dataset/dataloader classes and model loader.
+   - **Section 4–5** define training and evaluation functions.
+   - **Section 6** is the main experiment loop — trains and evaluates all (model × filter) combinations and saves `lab02_results.csv`.
+   - **Section 7** builds the comparison table, delta-vs-baseline table, and summary plots.
+   - **Section 8** contains the lab questions with guided answers to fill in from your actual results.
+4. Results (metrics table, confusion matrices, training curves, filter examples) are saved as PNG/CSV files alongside the notebook.
 
-1. Open `Lab1_CV_054.ipynb` in Jupyter Notebook, JupyterLab, or Google Colab.
-2. Select a Python 3 kernel/runtime.
-3. Run the dependency-installation cell.
-4. Run the remaining cells in order.
-5. Review the generated DataFrames.
+## Notes
+- `NUM_EPOCHS` is set low (10) by default so a full run completes in a reasonable time; increase it for a more rigorous final result.
+- All 18 (model × filter) runs use the same random seed, data split, and hyperparameters for a fair comparison.
 
 ## Project Structure
-
-```text
-.
-├── Lab1_CV_054.ipynb
+```
+Lab02/
+├── Lab2_CV_054.ipynb
 └── README.md
 ```
-
-## Future Improvements
-
-- Replace dummy values with actual model training and evaluation results.
-- Connect the classifiers to a real dataset.
-- Calculate the metrics from real predictions.
-- Measure actual model size, FLOPs, memory usage, and latency.
-- Add visual comparisons such as charts for the evaluation metrics.
-
-## Author
-Student ID: **054**
