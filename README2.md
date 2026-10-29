@@ -77,21 +77,33 @@ Libraries used: `numpy`, `opencv-python` (cv2), `scikit-image`, `scikit-learn`, 
 
 ## Results
 
-> Fill these tables with the numbers printed in the executed notebook. Do not type numbers that are not in the outputs.
+All numbers below are taken from the outputs of the executed notebook.
 
 **Validation results (Q2 and Q3)**
 
 | Model | Best C | Validation accuracy | Macro-F1 |
 |---|---|---|---|
-| HOG + SVM | | | |
-| SIFT (grid) + SVM | | | |
+| HOG + SVM | 0.1 | 0.6667 | 0.6625 |
+| SIFT (grid) + SVM | 1 | 0.7667 | 0.7667 |
 
 **Robustness on the test set (Q4)**
 
 | Model | Clean accuracy | Rotated accuracy | Noisy accuracy |
 |---|---|---|---|
-| HOG + SVM | | | |
-| SIFT + SVM | | | |
+| HOG + SVM | 0.7167 | 0.7000 | 0.5917 |
+| SIFT + SVM | 0.8083 | 0.5500 | 0.7833 |
+
+**Accuracy drop compared with clean (clean minus changed)**
+
+| Model | Drop under rotation | Drop under noise |
+|---|---|---|
+| HOG + SVM | 0.0167 | 0.1250 |
+| SIFT + SVM | 0.2583 | 0.0250 |
+
+**Observations (from the tables above)**
+- SIFT (grid) + SVM has the higher clean accuracy (0.8083 vs 0.7167).
+- Under 20-degree rotation, SIFT lost much more accuracy (0.2583) than HOG (0.0167).
+- Under Gaussian noise (sigma = 0.05), HOG lost much more accuracy (0.1250) than SIFT (0.0250).
 
 ## Rules Followed
 
